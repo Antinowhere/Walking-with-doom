@@ -1768,20 +1768,49 @@ window.testAudio = function() {
 
 function loadAudioFile(url, callback) {
     console.log('Loading audio file:', url);
+    console.log('AudioContext state:', audioContext?.state);
+    
     fetch(url)
         .then(response => {
+            console.log('Fetch response for', url, ':', response.status, response.statusText);
             if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                throw new Error(`HTTP ${response.status}: ${response.statusText} for ${url}`);
             }
             return response.arrayBuffer();
         })
-        .then(data => audioContext.decodeAudioData(data))
+        .then(data => {
+            console.log('ArrayBuffer received for', url, ', size:', data.byteLength);
+            return audioContext.decodeAudioData(data);
+        })
         .then(buffer => {
-            console.log('Successfully loaded:', url);
+            console.log('Successfully loaded and decoded:', url, 'duration:', buffer.duration, 'channels:', buffer.numberOfChannels);
             callback(buffer);
         })
         .catch(error => {
-            console.error('Failed to load audio file:', url, error);
+            console.error('Failed to load audio file:', url);
+            console.error('Error details:', error);
+            console.error('Error stack:', error.stack);
+            
+            // Try alternative path for Vercel
+            if (url.startsWith('public/')) {
+                const alternativeUrl = url.replace('public/', './');
+                console.log('Trying alternative path:', alternativeUrl);
+                fetch(alternativeUrl)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP ${response.status}: ${response.statusText} for ${alternativeUrl}`);
+                        }
+                        return response.arrayBuffer();
+                    })
+                    .then(data => audioContext.decodeAudioData(data))
+                    .then(buffer => {
+                        console.log('Successfully loaded from alternative path:', alternativeUrl);
+                        callback(buffer);
+                    })
+                    .catch(altError => {
+                        console.error('Alternative path also failed:', altError);
+                    });
+            }
         });
 }
 
