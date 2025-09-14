@@ -1,0 +1,23 @@
+{
+  "name": "walking-with-doom",
+  "version": "1.0.0",
+  "description": "A Three.js experience exploring light and dark sides with dynamic popups",
+  "main": "main.js",
+  "scripts": {
+    "start": "python3 -m http.server 8080",
+    "dev": "npx vite"
+  },
+  "keywords": [
+    "threejs",
+    "webgl",
+    "3d"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^4.5.0"
+  },
+  "dependencies": {
+    "three": "^0.180.0"
+  }
+}
