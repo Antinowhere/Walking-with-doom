@@ -2070,10 +2070,10 @@ function animate() {
             direction.normalize();
             
             if (moveForward || moveBackward || (isMobile && Math.abs(mobileJoystick.currentY) > 0.1)) {
-                velocity.z -= direction.z * 40.0 * delta;
+                velocity.z -= direction.z * 20.0 * delta;
             }
             if (moveLeft || moveRight || (isMobile && Math.abs(mobileJoystick.currentX) > 0.1)) {
-                velocity.x -= direction.x * 40.0 * delta;
+                velocity.x -= direction.x * 20.0 * delta;
             }
             
             controls.moveRight(-velocity.x * delta);
@@ -2111,8 +2111,8 @@ function animate() {
             direction.x = Number(moveRight) - Number(moveLeft);
             direction.normalize();
             
-            if (moveForward || moveBackward) velocity.z -= direction.z * 40.0 * delta;
-            if (moveLeft || moveRight) velocity.x -= direction.x * 40.0 * delta;
+            if (moveForward || moveBackward) velocity.z -= direction.z * 20.0 * delta;
+            if (moveLeft || moveRight) velocity.x -= direction.x * 20.0 * delta;
             
             controls.moveRight(-velocity.x * delta);
             controls.moveForward(-velocity.z * delta);
